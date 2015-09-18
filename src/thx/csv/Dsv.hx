@@ -1,5 +1,7 @@
 package thx.csv;
 
+using thx.Strings;
+
 class Dsv {
   public static function decode(csv : String, options : DsvDecodeOptions) : Array<Array<String>> {
     if(null == options.quote) options.quote = '"';
@@ -11,7 +13,24 @@ class Dsv {
     if(null == options.quote) options.quote = '"';
     if(null == options.escapedQuote) options.escapedQuote = options.quote == '"' ? '""' : '\\${options.quote}';
     if(null == options.newline) options.newline = '\n';
-    return "";
+
+    return data.map(function(row) {
+      return row.map(function(cell) {
+        if(requiresQuotes(cell, options.delimiter, options.quote))
+          return applyQuotes(cell, options.quote, options.escapedQuote);
+        else
+          return cell;
+      }).join(options.delimiter);
+    }).join(options.newline);
+  }
+
+  static function requiresQuotes(value : String, delimiter : String, quote : String) {
+    return value.contains(delimiter) || value.contains(quote) || value.contains('\n') || value.contains('\r');
+  }
+
+  static function applyQuotes(value : String, quote : String, escapedQuote : String) {
+    value = value.replace(quote, escapedQuote);
+    return '$quote$value$quote';
   }
 }
 

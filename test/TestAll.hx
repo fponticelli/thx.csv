@@ -1,6 +1,6 @@
 import utest.UTest;
 import utest.Assert;
-import thx.csv.Csv;
+import thx.csv.*;
 
 class TestAll {
   public static function main() {
@@ -8,38 +8,68 @@ class TestAll {
   }
   public function new() {}
 
-  public function testParse() {
-    Assert.same(["1997","Ford","E350"], Csv.parse('1997,Ford,E350'));
-    Assert.same(["1997","Ford","E350"], Csv.parse('"1997","Ford","E350"'));
-    Assert.same(["1997","Ford","E350","Super, luxurious truck"], Csv.parse('1997,Ford,E350,"Super, luxurious truck"'));
-    Assert.same(["1997","Ford","E350",'Super, "luxurious" truck'], Csv.parse('1997,Ford,E350,"Super, ""luxurious"" truck"'));
-    Assert.same(["1997","Ford","E350",'Go get one now\nthey are going fast'], Csv.parse('1997,Ford,E350,"Go get one now\nthey are going fast"'));
-
-//comma, semicolon, or tab
-
-// Year,Make,Model,Description,Price
-// 1997,Ford,E350,"ac, abs, moon",3000.00
-// 1999,Chevy,"Venture ""Extended Edition""","",4900.00
-// 1999,Chevy,"Venture ""Extended Edition, Very Large""",,5000.00
-// 1996,Jeep,Grand Cherokee,"MUST SELL!
-// air, moon roof, loaded",4799.00
-
-// Year;Make;Model;Length
-// 1997;Ford;E350;2,34
-// 2000;Mercury;Cougar;2,38
+  public function testEncode() {
+    Assert.same('1997,Ford,E350', Csv.encode([["1997","Ford","E350"]]));
+    Assert.same('1997,Ford,E350,"Super, luxurious truck"', Csv.encode([["1997","Ford","E350","Super, luxurious truck"]]));
+    Assert.same('1997,Ford,E350,"Super, ""luxurious"" truck"', Csv.encode([["1997","Ford","E350",'Super, "luxurious" truck']]));
+    Assert.same('1997,Ford,E350,"Go get one now\nthey are going fast"', Csv.encode([["1997","Ford","E350",'Go get one now\nthey are going fast']]));
   }
 
-// AUTO TRIM
-// 1997, Ford, E350
-// not same as
-// 1997,Ford,E350
+  public function testDecode() {
+    Assert.same([["1997","Ford","E350"]], Csv.decode('1997,Ford,E350'));
+    Assert.same([["1997","Ford","E350"]], Csv.decode('"1997","Ford","E350"'));
+    Assert.same([["1997","Ford","E350","Super, luxurious truck"]], Csv.decode('1997,Ford,E350,"Super, luxurious truck"'));
+    Assert.same([["1997","Ford","E350",'Super, "luxurious" truck']], Csv.decode('1997,Ford,E350,"Super, ""luxurious"" truck"'));
+    Assert.same([["1997","Ford","E350",'Go get one now\nthey are going fast']], Csv.decode('1997,Ford,E350,"Go get one now\nthey are going fast"'));
+  }
 
-// NO TRIM
-//Assert.same(["1997","Ford","E350"," Super, luxurious truck "], Csv.parse('1997,Ford,E350," Super, luxurious truck "'));
+  public function testRoundtrip() {
+    var s = 'Year,Make,Model,Description,Price
+1997,Ford,E350,"ac, abs, moon",3000.00
+1999,Chevy,"Venture ""Extended Edition""","",4900.00
+1999,Chevy,"Venture ""Extended Edition, Very Large""",,5000.00
+1996,Jeep,Grand Cherokee,"MUST SELL!
+air, moon roof, loaded",4799.00';
+    var decoded = Csv.decode(s),
+        encoded = Csv.encode(decoded);
+    Assert.same([
+['Year','Make','Model','Description','Price'],
+['1997','Ford','E350','ac, abs, moon','3000.00'],
+['1999','Chevy','Venture "Extended Edition"','','4900.00'],
+['1999','Chevy','Venture "Extended Edition, Very Large"','','5000.00'],
+['1996','Jeep','Grand Cherokee','MUST SELL!\nair, moon roof, loaded','4799.00']
+], decoded);
+    Assert.same('Year,Make,Model,Description,Price
+1997,Ford,E350,"ac, abs, moon",3000.00
+1999,Chevy,"Venture ""Extended Edition""",,4900.00
+1999,Chevy,"Venture ""Extended Edition, Very Large""",,5000.00
+1996,Jeep,Grand Cherokee,"MUST SELL!
+air, moon roof, loaded",4799.00', encoded);
+  }
 
-// REMOVE WHITESPACES AROUND QUOTES
-// 1997, "Ford" ,E350
+  public function testSemicolon() {
+    var s = 'Year;Make;Model;Length
+1997;Ford;E350;2,34
+2000;Mercury;Cougar;2,38',
+        encoded = Dsv.decode(s, { quote : '"', escapedQuote : '""', delimiter : ';', trimmed : false }),
+        decoded = Dsv.encode(encoded, { quote : '"', escapedQuote : '""', delimiter : ';' });
+    Assert.equals(s, decoded);
+  }
 
-//https://en.wikipedia.org/wiki/Delimiter-separated_values
-//DSV, TSV
+  public function testAutoTrim() {
+    var s = '1997 , Ford, E350',
+        encoded = Dsv.decode(s, { quote : '"', escapedQuote : '""', delimiter : ',', trimmed : true });
+    Assert.same(['1997', 'Ford', 'E350'], encoded);
+    encoded = Dsv.decode(s, { quote : '"', escapedQuote : '""', delimiter : ',', trimmed : true });
+    Assert.same(['1997 ', ' Ford', ' E350'], encoded);
+    Assert.same(["1997","Ford","E350"," Super, luxurious truck "], Csv.decode('1997,Ford,E350," Super, luxurious truck "'));
+  }
+
+  public function testSurroundingWhitespaces() {
+    Assert.same(["1997","Ford","E350"], Csv.decode('1997, "Ford" ,E350'));
+  }
+
+  public function testTsv() {
+    Assert.same(["1997","Ford","E350"], Tsv.decode('1997   Ford    E350'));
+  }
 }

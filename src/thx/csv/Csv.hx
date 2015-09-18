@@ -4,7 +4,8 @@ class Csv {
   static var encodeOptions = {
     delimiter : ',',
     quote : '"',
-    escapedQuote : '""'
+    escapedQuote : '""',
+    newline : "\n"
   };
   static var decodeOptions = {
     delimiter : ',',

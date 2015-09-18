@@ -12,7 +12,8 @@ class Dsv {
 typedef DsvEncodeOptions = {
   delimiter : String,
   quote : String,
-  escapedQuote : String
+  escapedQuote : String,
+  newline : String
 }
 
 typedef DsvDecodeOptions = {

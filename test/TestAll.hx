@@ -52,7 +52,7 @@ air, moon roof, loaded",4799.00', encoded);
 1997;Ford;E350;2,34
 2000;Mercury;Cougar;2,38',
         encoded = Dsv.decode(s, { quote : '"', escapedQuote : '""', delimiter : ';', trimmed : false }),
-        decoded = Dsv.encode(encoded, { quote : '"', escapedQuote : '""', delimiter : ';' });
+        decoded = Dsv.encode(encoded, { quote : '"', escapedQuote : '""', delimiter : ';', newline : "\n" });
     Assert.equals(s, decoded);
   }
 

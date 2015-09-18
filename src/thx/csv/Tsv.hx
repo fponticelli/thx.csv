@@ -4,7 +4,8 @@ class Tsv {
   static var encodeOptions = {
     delimiter : '\t',
     quote : '"',
-    escapedQuote : '""'
+    escapedQuote : '""',
+    newline : "\n"
   };
   static var decodeOptions = {
     delimiter : '\t',

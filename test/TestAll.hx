@@ -16,6 +16,15 @@ class TestAll {
   }
 
   public function testDecode() {
+    Assert.same([], Csv.decode(''));
+    Assert.same([["",""]], Csv.decode(','));
+    Assert.same([["f",""]], Csv.decode('f,'));
+    Assert.same([["","f"]], Csv.decode(',f'));
+    Assert.same([["x","y"]], Csv.decode('x,y'));
+    Assert.same([["",""],["",""]], Csv.decode(',\n,'));
+    Assert.same([["",""],[""],["",""]], Csv.decode(',\n\n,'));
+    Assert.same([["",""],[""],["",""]], Csv.decode(',\n""\n,'));
+    Assert.same([["1997","Ford","E350"]], [["1997","Ford","E350"]]);
     Assert.same([["1997","Ford","E350"]], Csv.decode('1997,Ford,E350'));
     Assert.same([["1997","Ford","E350"]], Csv.decode('"1997","Ford","E350"'));
     Assert.same([["1997","Ford","E350","Super, luxurious truck"]], Csv.decode('1997,Ford,E350,"Super, luxurious truck"'));
@@ -62,14 +71,14 @@ air, moon roof, loaded",4799.00', encoded);
     Assert.same(['1997', 'Ford', 'E350'], encoded);
     encoded = Dsv.decode(s, { quote : '"', escapedQuote : '""', delimiter : ',', trimmed : true });
     Assert.same(['1997 ', ' Ford', ' E350'], encoded);
-    Assert.same(["1997","Ford","E350"," Super, luxurious truck "], Csv.decode('1997,Ford,E350," Super, luxurious truck "'));
+    Assert.same([["1997","Ford","E350"," Super, luxurious truck "]], Csv.decode('1997,Ford,E350," Super, luxurious truck "'));
   }
 
   public function testSurroundingWhitespaces() {
-    Assert.same(["1997","Ford","E350"], Csv.decode('1997, "Ford" ,E350'));
+    Assert.same([["1997","Ford","E350"]], Csv.decode('1997, "Ford" ,E350'));
   }
 
   public function testTsv() {
-    Assert.same(["1997","Ford","E350"], Tsv.decode('1997   Ford    E350'));
+    Assert.same([["1997 "," Ford "," E350"]], Tsv.decode('1997 	 Ford 	 E350'));
   }
 }

@@ -1,11 +1,23 @@
 package thx.csv;
 
 class Dsv {
-  public static function parse(csv : String) : Array<Array<String>> {
+  public static function decode(csv : String, options : DsvDecodeOptions) : Array<Array<String>> {
     return [];
+  }
+  public static function encode(data : Array<Array<String>>, options : DsvEncodeOptions) : String {
+    return "";
   }
 }
 
-typedef DsvOptions = {
-  ?delimiter : String
+typedef DsvEncodeOptions = {
+  delimiter : String,
+  quote : String,
+  escapedQuote : String
+}
+
+typedef DsvDecodeOptions = {
+  delimiter : String,
+  quote : String,
+  escapedQuote : String,
+  trimmed : Bool
 }

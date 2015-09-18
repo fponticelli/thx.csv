@@ -12,6 +12,7 @@ class Csv {
     quote : '"',
     escapedQuote : '""',
     trimValues : false,
+    trimEmptyLines : true
   };
   public inline static function decode(csv : String) : Array<Array<String>>
     return Dsv.decode(csv, decodeOptions);

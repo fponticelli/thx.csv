@@ -60,17 +60,17 @@ air, moon roof, loaded",4799.00', encoded);
     var s = 'Year;Make;Model;Length
 1997;Ford;E350;2,34
 2000;Mercury;Cougar;2,38',
-        encoded = Dsv.decode(s, { quote : '"', escapedQuote : '""', delimiter : ';', trimmed : false }),
+        encoded = Dsv.decode(s, { quote : '"', escapedQuote : '""', delimiter : ';', trimValues : false }),
         decoded = Dsv.encode(encoded, { quote : '"', escapedQuote : '""', delimiter : ';', newline : "\n" });
     Assert.equals(s, decoded);
   }
 
   public function testAutoTrim() {
     var s = '1997 , Ford, E350',
-        encoded = Dsv.decode(s, { quote : '"', escapedQuote : '""', delimiter : ',', trimmed : true });
-    Assert.same(['1997', 'Ford', 'E350'], encoded);
-    encoded = Dsv.decode(s, { quote : '"', escapedQuote : '""', delimiter : ',', trimmed : true });
-    Assert.same(['1997 ', ' Ford', ' E350'], encoded);
+        encoded = Dsv.decode(s, { quote : '"', escapedQuote : '""', delimiter : ',', trimValues : true });
+    Assert.same([['1997', 'Ford', 'E350']], encoded);
+    encoded = Dsv.decode(s, { quote : '"', escapedQuote : '""', delimiter : ',', trimValues : false });
+    Assert.same([['1997 ', ' Ford', ' E350']], encoded);
     Assert.same([["1997","Ford","E350"," Super, luxurious truck "]], Csv.decode('1997,Ford,E350," Super, luxurious truck "'));
   }
 

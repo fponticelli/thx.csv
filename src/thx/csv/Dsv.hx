@@ -6,9 +6,10 @@ class Dsv {
   public static function decode(dsv : String, options : DsvDecodeOptions) : Array<Array<String>> {
     if(null == options.quote) options.quote = '"';
     if(null == options.escapedQuote) options.escapedQuote = options.quote == '"' ? '""' : '\\${options.quote}';
-    if(null == options.trimmed) options.trimmed = false;
     var result = parse(dsv, options.delimiter, options.quote, options.escapedQuote);
     if(options.trimmed) {
+    if(null == options.trimValues) options.trimValues = false;
+    if(options.trimValues) {
       for(row in result)
         for(i in 0...row.length)
           row[i] = row[i].trim();

@@ -3,11 +3,17 @@ package thx.csv;
 using thx.Strings;
 
 class Dsv {
-  public static function decode(csv : String, options : DsvDecodeOptions) : Array<Array<String>> {
+  public static function decode(dsv : String, options : DsvDecodeOptions) : Array<Array<String>> {
     if(null == options.quote) options.quote = '"';
     if(null == options.escapedQuote) options.escapedQuote = options.quote == '"' ? '""' : '\\${options.quote}';
     if(null == options.trimmed) options.trimmed = false;
-    return [];
+    var result = parse(dsv, options.delimiter, options.quote, options.escapedQuote);
+    if(options.trimmed) {
+      for(row in result)
+        for(i in 0...row.length)
+          row[i] = row[i].trim();
+    }
+    return result;
   }
   public static function encode(data : Array<Array<String>>, options : DsvEncodeOptions) : String {
     if(null == options.quote) options.quote = '"';
@@ -22,6 +28,12 @@ class Dsv {
           return cell;
       }).join(options.delimiter);
     }).join(options.newline);
+  }
+
+  static function parse(s : String, delimiter : String, quote : String, escapedQuote : String) : Array<Array<String>> {
+    var result = [];
+
+    return result;
   }
 
   static function requiresQuotes(value : String, delimiter : String, quote : String) {

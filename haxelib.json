@@ -5,7 +5,7 @@
   "classPath": "src",
   "tags": ["thx", "data", "csv", "dsv", "tsv", "general", "cross", "std"],
   "description": "CSV parsing and writing libraries. Also supports DSV and TSV.",
-  "releasenote": "first release",
-  "version": "0.1.0",
+  "releasenote": "minor fixes to doc generation",
+  "version": "0.1.1",
   "contributors": ["fponticelli"]
 }

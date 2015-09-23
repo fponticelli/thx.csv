@@ -6,7 +6,7 @@
 -dce no
 -lib thx.core
 #-lib thx.csv
-ImportAll
+ImportCsv
 
 --each
 -xml xml/js.xml

@@ -1,4 +1,8 @@
 # thx.csv
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/fponticelli/thx.core?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+[![Build Status](https://travis-ci.org/fponticelli/thx.csv.svg?branch=master)](https://travis-ci.org/fponticelli/thx.csv)
+
 CSV decoder (parser) and encoder (writer)
 
 ## usage

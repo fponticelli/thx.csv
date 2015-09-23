@@ -24,5 +24,5 @@ trace(encoded);
 ## install
 
 ```
-haxelib git install https://github.com/fponticelli/thx.csv.git
+haxelib install thx.csv
 ```

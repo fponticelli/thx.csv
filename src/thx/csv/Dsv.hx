@@ -77,7 +77,6 @@ class Dsv {
           pushBuffer(s.substring(pos, pos + 1));
           ++pos;
         }
-        //break; // TODO REMOVE
       }
     }
     loop = function() {

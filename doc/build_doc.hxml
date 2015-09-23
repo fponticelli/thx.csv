@@ -5,7 +5,7 @@
 -D dox
 -dce no
 -lib thx.core
--lib thx.csv
+#-lib thx.csv
 ImportAll
 
 --each

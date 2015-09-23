@@ -64,7 +64,7 @@ class Dsv {
       }
     }
 
-    var loopWithinQuotes, loop;
+    var loopWithinQuotes, loop = null;
 
     loopWithinQuotes = function() {
       while(pos < len) {

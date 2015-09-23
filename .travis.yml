@@ -4,9 +4,8 @@ sudo: false
 
 matrix:
   include:
-    # - env: TARGET=cpp
-    #   haxe: 3.2.0
-    # segmentation fault happens here, is this a haxe/cpp bug?
+    - env: TARGET=cpp
+      haxe: 3.2.0
     - env: TARGET=cpp
       haxe: development
     - env: TARGET=cs

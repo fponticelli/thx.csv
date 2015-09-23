@@ -18,6 +18,7 @@ class Dsv {
     }
     return result;
   }
+
   public static function encode(data : Array<Array<String>>, options : DsvEncodeOptions) : String {
     if(null == options.quote) options.quote = '"';
     if(null == options.escapedQuote) options.escapedQuote = options.quote == '"' ? '""' : '\\${options.quote}';
@@ -41,12 +42,9 @@ class Dsv {
         quoteLength = quote.length,
         escapedQuoteLength = escapedQuote.length,
         buffer = new StringBuf(),
-        row = null;
+        row = [];
 
     function pushCell() {
-      if(row == null) {
-        row = [];
-      }
       row.push(buffer.toString());
       buffer = new StringBuf();
     }
@@ -56,15 +54,11 @@ class Dsv {
     }
 
     function pushRow() {
-      if(null == row) {
-        row = [];
-      } else {
-        result.push(row);
-        row = [];
-      }
+      result.push(row);
+      row = [];
     }
 
-    var loopWithinQuotes, loop = null;
+    var loopWithinQuotes = null, loop = null;
 
     loopWithinQuotes = function() {
       while(pos < len) {

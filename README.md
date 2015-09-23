@@ -21,6 +21,8 @@ trace(decoded); // Array<Array<String>>
 trace(encoded);
 ```
 
+[live sample](http://try.thx-lib.org/#913a7)
+
 ## install
 
 ```

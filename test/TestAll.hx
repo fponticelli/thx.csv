@@ -8,6 +8,13 @@ class TestAll {
   }
   public function new() {}
 
+  public function testNonCsv() {
+    var notCsv = '[
+    ["ticker","name","rawdate","valuation","size","profitability","growth","leverage","liquidity","payout"],
+  ]';
+    Assert.raises(Csv.decode.bind(notCsv));
+  }
+
   public function testEncode() {
     Assert.same('1997,Ford,E350', Csv.encode([["1997","Ford","E350"]]));
     Assert.same('1997,Ford,E350,"Super, luxurious truck"', Csv.encode([["1997","Ford","E350","Super, luxurious truck"]]));

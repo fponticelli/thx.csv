@@ -85,9 +85,8 @@ class Dsv {
         if(s.substring(pos, pos + quoteLength) == quote) {
           if(buffer.length > 0) {
             var s = buffer.toString().trim();
-            if(s.length > 0) {
-              continue;
-            }
+            if(s.length > 0)
+              throw new thx.Error('Unexecpected chars "$s"');
             buffer = new StringBuf();
           }
           pos += quoteLength;

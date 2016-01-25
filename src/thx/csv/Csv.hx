@@ -17,6 +17,9 @@ class Csv {
   public inline static function decode(csv : String) : Array<Array<String>>
     return Dsv.decode(csv, decodeOptions);
 
+  public static function decodeObjects(csv : String) : Array<{}>
+    return Dsv.arrayToObjects(decode(csv));
+
   public inline static function encode(data : Array<Array<String>>) : String
     return Dsv.encode(data, encodeOptions);
 }

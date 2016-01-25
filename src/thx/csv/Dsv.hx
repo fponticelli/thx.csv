@@ -19,6 +19,28 @@ class Dsv {
     return result;
   }
 
+  public static function decodeObjects(dsv : String, options : DsvDecodeOptions) : Array<{}>
+    return arrayToObjects(decode(dsv, options));
+
+  public static function arrayToObjects(arr : Array<Array<String>>) : Array<{}> {
+    var columns = arr[0];
+    if(null == columns)
+      return [];
+    var result = [],
+        len = columns.length,
+        row,
+        ob;
+    for(r in 1...arr.length) {
+      ob = {};
+      row = arr[r];
+      for(i in 0...len) {
+        Reflect.setField(ob, columns[i], row[i]);
+      }
+      result.push(ob);
+    }
+    return result;
+  }
+
   public static function encode(data : Array<Array<String>>, options : DsvEncodeOptions) : String {
     if(null == options.quote) options.quote = '"';
     if(null == options.escapedQuote) options.escapedQuote = options.quote == '"' ? '""' : '\\${options.quote}';

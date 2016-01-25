@@ -39,6 +39,29 @@ class TestAll {
     Assert.same([["1997","Ford","E350",'Go get one now\nthey are going fast']], Csv.decode('1997,Ford,E350,"Go get one now\nthey are going fast"'));
   }
 
+  public function testIssue20160125() {
+    var s = '265671209,"Dynagreen Environmental Protection Group Co., Ltd.",1330,China,HKD,';
+    var decoded = Csv.decode(s),
+        encoded = Csv.encode(decoded);
+    Assert.same([
+      ['265671209','Dynagreen Environmental Protection Group Co., Ltd.','1330','China','HKD','']
+      ], decoded);
+    Assert.same('265671209,"Dynagreen Environmental Protection Group Co., Ltd.",1330,China,HKD,', encoded);
+  }
+
+  public function testTerminalComma() {
+    var s = "Company ID,Name,Ticker,Country,Currency,
+24085,1-800-Flowers.com Inc.,FLWS,United States,USD,";
+    var decoded = Csv.decode(s),
+        encoded = Csv.encode(decoded);
+    Assert.same([
+      ['Company ID','Name','Ticker','Country','Currency',''],
+      ['24085','1-800-Flowers.com Inc.','FLWS','United States','USD','']
+      ], decoded);
+    Assert.same('Company ID,Name,Ticker,Country,Currency,
+24085,1-800-Flowers.com Inc.,FLWS,United States,USD,', encoded);
+  }
+
   public function testRoundtrip() {
     var s = 'Year,Make,Model,Description,Price
 1997,Ford,E350,"ac, abs, moon",3000.00

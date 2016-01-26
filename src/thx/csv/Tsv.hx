@@ -22,4 +22,7 @@ class Tsv {
 
   public inline static function encode(data : Array<Array<String>>) : String
     return Dsv.encode(data, encodeOptions);
+
+  public static function encodeObjects(data : Array<{}>) : String
+    return Dsv.encodeObjects(data, encodeOptions);
 }

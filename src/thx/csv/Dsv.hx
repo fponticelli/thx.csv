@@ -56,6 +56,40 @@ class Dsv {
     }).join(options.newline);
   }
 
+  public static function encodeObjects(data : Array<{}>, options : DsvEncodeOptions) : String
+    return encode(objectsToArray(data, []), options);
+
+  public static function objectsToArray(objects : Array<{}>, ?columns : Array<String>) : Array<Array<String>> {
+    if(null == columns)
+      return objectsToArray(objects, []);
+    var map = new Map(),
+        result = [columns],
+        collector,
+        row;
+    for(i in 0...columns.length) {
+      map.set(columns[i], i);
+    }
+    for(object in objects) {
+      collector = [];
+      row = [];
+      for(field in Reflect.fields(object)) {
+        var index = map.get(field);
+        if(null == index) {
+          collector.push(field);
+        } else {
+          row[index] = Reflect.field(object, field);
+        }
+      }
+      if(collector.length > 0) {
+        // restarts with the new columns
+        return objectsToArray(objects, columns.concat(collector));
+      } else {
+        result.push(row);
+      }
+    }
+    return result;
+  }
+
   static function requiresQuotes(value : String, delimiter : String, quote : String) {
     return value.contains(delimiter) || value.contains(quote) || value.contains('\n') || value.contains('\r');
   }

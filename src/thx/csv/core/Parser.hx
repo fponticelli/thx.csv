@@ -36,7 +36,8 @@ class Parser {
     try {
       loop();
     } catch(e : Dynamic) {
-      throw new thx.error.ErrorWrapper('unable to parse at pos $pos', thx.Error.fromDynamic(e));
+      trace(e);
+      throw new thx.Error('unable to parse at pos $pos: ${Std.string(e)}');
     }
     pushCell();
     pushRow();
@@ -61,13 +62,7 @@ class Parser {
   inline function loop() {
     var t;
     while(pos < len) {
-      if(s.substring(pos, pos + quoteLength) == quote) {
-        if(buffer.length > 0) {
-          var s = buffer.toString().trim();
-          if(s.length > 0)
-            throw new thx.Error('Unexecpected chars "$s"');
-          buffer = new StringBuf();
-        }
+      if(s.substring(pos, pos + quoteLength) == quote && buffer.length == 0) {
         pos += quoteLength;
         // loopWithinQuotes
         while(pos < len) {

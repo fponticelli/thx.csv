@@ -1,0 +1,6 @@
+-lib thx.core
+-lib utest
+-cp src
+-cp test
+-main TestAll
+-D travis

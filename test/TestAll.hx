@@ -105,7 +105,7 @@ air, moon roof, loaded",4799.00', encoded);
   }
 
   public function testSurroundingWhitespaces() {
-    Assert.same([["1997","Ford","E350"]], Csv.decode('1997, "Ford" ,E350'));
+    Assert.same([["1997",' "Ford" ',"E350"]], Csv.decode('1997, "Ford" ,E350'));
   }
 
   public function testTsv() {

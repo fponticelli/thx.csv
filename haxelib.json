@@ -5,8 +5,8 @@
   "classPath": "src",
   "tags": ["thx", "data", "csv", "dsv", "tsv", "general", "cross", "std"],
   "description": "CSV parsing and writing libraries. Also supports DSV and TSV.",
-  "releasenote": "throw an expection for unparsable CSV",
-  "version": "0.1.2",
+  "releasenote": "Prevent call stack exception and added encode/decode to objects",
+  "version": "0.2.0",
   "contributors": ["fponticelli"],
   "dependencies" : {
     "thx.core" : "",

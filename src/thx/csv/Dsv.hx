@@ -48,10 +48,12 @@ class Dsv {
 
     return data.map(function(row) {
       return row.map(function(cell) {
-        if(requiresQuotes(cell, options.delimiter, options.quote))
-          return applyQuotes(cell, options.quote, options.escapedQuote);
+        return if(cell == null)
+         ''
+        else if(requiresQuotes(cell, options.delimiter, options.quote))
+          applyQuotes(cell, options.quote, options.escapedQuote);
         else
-          return cell;
+          cell;
       }).join(options.delimiter);
     }).join(options.newline);
   }

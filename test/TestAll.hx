@@ -17,6 +17,9 @@ class TestAll {
 
   public function testDecode() {
     Assert.same([], Csv.decode(''));
+    Assert.same([[" "]], Csv.decode(' '));
+    Assert.same([["a"]], Csv.decode('"a"'));
+    Assert.same([["a, b"]], Csv.decode('"a, b"'));
     Assert.same([["",""]], Csv.decode(','));
     Assert.same([["f",""]], Csv.decode('f,'));
     Assert.same([["","f"]], Csv.decode(',f'));

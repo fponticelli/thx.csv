@@ -19,17 +19,17 @@ class Dsv {
     return result;
   }
 
-  public static function decodeObjects(dsv : String, options : DsvDecodeOptions) : Array<{}>
+  public static function decodeObjects(dsv : String, options : DsvDecodeOptions) : Array<Dynamic<String>>
     return arrayToObjects(decode(dsv, options));
 
-  public static function arrayToObjects(arr : Array<Array<String>>) : Array<{}> {
+  public static function arrayToObjects(arr : Array<Array<String>>) : Array<Dynamic<String>> {
     var columns = arr[0];
     if(null == columns)
       return [];
     var result = [],
         len = columns.length,
         row,
-        ob;
+        ob:Dynamic<String>;
     for(r in 1...arr.length) {
       ob = {};
       row = arr[r];
@@ -58,10 +58,10 @@ class Dsv {
     }).join(options.newline);
   }
 
-  public static function encodeObjects(data : Array<{}>, options : DsvEncodeOptions) : String
+  public static function encodeObjects(data : Array<Dynamic<String>>, options : DsvEncodeOptions) : String
     return encode(objectsToArray(data, []), options);
 
-  public static function objectsToArray(objects : Array<{}>, ?columns : Array<String>) : Array<Array<String>> {
+  public static function objectsToArray(objects : Array<Dynamic<String>>, ?columns : Array<String>) : Array<Array<String>> {
     if(null == columns)
       return objectsToArray(objects, []);
     var map = new Map(),
